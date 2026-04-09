@@ -16,8 +16,7 @@ VENV_PYTHON = os.path.join("venv", "bin", "python")
 
 # -------- LOGGER --------
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(message)s"
+    level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -30,10 +29,12 @@ def timed(func):
         duration = round(time.time() - start, 2)
         logger.info(f"{func.__name__} completed in {duration}s")
         return result
+
     return wrapper
 
 
 # -------- FUNCTIONS --------
+
 
 @timed
 def run_docker():
@@ -46,9 +47,7 @@ def start_ollama():
 
     try:
         subprocess.Popen(
-            ["ollama", "serve"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
+            ["ollama", "serve"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         time.sleep(2)
         logger.info("Ollama start command issued")
@@ -80,11 +79,7 @@ def load_model():
 
     url = f"{OLLAMA_URL}/api/generate"
 
-    payload = {
-        "model": "mistral",
-        "prompt": "hi",
-        "stream": False
-    }
+    payload = {"model": "mistral", "prompt": "hi", "stream": False}
 
     try:
         res = requests.post(url, json=payload, timeout=10)
@@ -149,10 +144,7 @@ def start_session():
     logger.info("Starting session...")
 
     url = f"{WAHA_BASE_URL}/api/sessions/start"
-    headers = {
-        "Content-Type": "application/json",
-        "x-api-key": WAHA_API_KEY
-    }
+    headers = {"Content-Type": "application/json", "x-api-key": WAHA_API_KEY}
 
     payload = {"name": SESSION_NAME}
 
@@ -171,6 +163,7 @@ def run_server():
 
 
 # -------- MAIN --------
+
 
 def main():
     logger.info("===== STARTING JARVIS SYSTEM =====")
